@@ -1,50 +1,457 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>web penilayan</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abra Portfolio Pro</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+body{background:#0a0a0a;color:white;scroll-behavior:smooth;}
+
+/* CURSOR */
+.cursor{
+position:fixed;width:15px;height:15px;
+background:red;border-radius:50%;
+pointer-events:none;
+box-shadow:0 0 20px red,0 0 40px red;
+transform:translate(-50%,-50%);
+z-index:9999;
+}
+
+/* NAVBAR */
+.top-bar{
+position:fixed;top:15px;left:50%;
+transform:translateX(-50%);
+z-index:999;
+}
+
+.menu{
+display:flex;align-items:center;gap:15px;
+padding:12px 25px;
+background:rgba(0,0,0,0.55);
+border-radius:25px;
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,0.1);
+position:relative;
+}
+
+.menu::after{
+content:"";
+position:absolute;bottom:-5px;left:10%;
+width:80%;height:2px;
+background:linear-gradient(to right,transparent,red,transparent);
+box-shadow:0 0 15px red;
+}
+
+.logo{width:32px;height:32px;border-radius:50%;border:2px solid red;}
+.logo-text{font-weight:bold;}
+
+.nav-wrap{position:relative;display:flex;gap:5px;padding:5px;}
+.slider{
+position:absolute;top:5px;
+height:30px;background:white;
+opacity:0.15;border-radius:20px;
+transition:0.3s;
+}
+.nav{padding:6px 10px;cursor:pointer;position:relative;z-index:1;}
+.nav.active{color:white;}
+
+#jam{font-size:12px;color:#aaa;}
+
+/* SECTION */
+.section{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:80px 10%;
+min-height:100vh;
+}
+.section.reverse{flex-direction:row-reverse;}
+.center-only{flex-direction:column;text-align:center;}
+.content{width:45%;}
+.video{width:45%;position:relative;}
+
+.video::before{
+content:"";
+position:absolute;inset:-8px;
+border-radius:20px;
+border:1px solid rgba(255,0,0,0.4);
+box-shadow:0 0 20px red;
+}
+.video video{
+width:100%;
+border-radius:15px;
+transition:0.4s;
+}
+.video:hover video{transform:scale(1.05);}
+
+/* HOME */
+.social{display:flex;gap:10px;margin-top:10px;}
+.social img{width:30px;}
+.stats{display:flex;gap:10px;margin-top:15px;}
+.stat{background:#111;padding:10px;border-radius:10px;}
+
+.home-extra{
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.fake-btn{
+padding:10px;background:#111;border-radius:10px;
+color:#aaa;cursor:not-allowed;
+}
+
+.hire-btn{
+padding:10px;background:red;
+border-radius:10px;
+color:white;
+text-decoration:none;
+text-align:center;
+animation:glow 1.5s infinite alternate;
+}
+
+@keyframes glow{
+from{box-shadow:0 0 5px red;}
+to{box-shadow:0 0 20px red;}
+}
+
+/* GLITCH 2 BARIS */
+.glitch-wrap{
+margin-top:40px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:5px;
+}
+
+.glitch-line{
+font-size:18px;
+font-weight:bold;
+color:red;
+position:relative;
+letter-spacing:2px;
+animation:glitchMove 1s infinite;
+}
+
+.glitch-line::before,
+.glitch-line::after{
+content:attr(data-text);
+position:absolute;
+left:0;
+width:100%;
+color:red;
+}
+
+.glitch-line::before{
+left:2px;
+text-shadow:-2px 0 red;
+animation:glitchTop 1s infinite;
+}
+
+.glitch-line::after{
+left:-2px;
+text-shadow:2px 0 red;
+animation:glitchBottom 1s infinite;
+}
+
+@keyframes glitchMove{
+0%{transform:translate(0);}
+20%{transform:translate(-2px,2px);}
+40%{transform:translate(2px,-2px);}
+60%{transform:translate(-2px,1px);}
+80%{transform:translate(2px,-1px);}
+100%{transform:translate(0);}
+}
+
+@keyframes glitchTop{
+0%{clip-path:inset(0 0 80% 0);}
+50%{clip-path:inset(0 0 20% 0);}
+100%{clip-path:inset(0 0 80% 0);}
+}
+
+@keyframes glitchBottom{
+0%{clip-path:inset(80% 0 0 0);}
+50%{clip-path:inset(20% 0 0 0);}
+100%{clip-path:inset(80% 0 0 0);}
+}
+
+/* SKILL */
+.skill-box{display:flex;flex-wrap:wrap;gap:10px;}
+.skill{
+background:#111;
+padding:10px;
+border-radius:10px;
+display:flex;
+gap:8px;
+transition:0.2s;
+}
+.skill:hover{
+transform:translateY(-5px) scale(1.05);
+background:#1a0000;
+box-shadow:0 0 15px red;
+}
+.skill img{width:20px;}
+
+/* PROJECT FIX FULL */
+.project-container{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+margin-top:30px;
+max-width:500px;
+width:100%;
+margin-left:auto;
+margin-right:auto;
+padding:0 10px;
+}
+
+.flip{
+width:100%;
+height:160px;
+perspective:1000px;
+}
+
+.flip-inner{
+width:100%;
+height:100%;
+position:relative;
+transform-style:preserve-3d;
+transition:0.6s;
+}
+
+.flip:hover .flip-inner{transform:rotateY(180deg);}
+
+.flip-front,.flip-back{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+background:#111;
+border-radius:15px;
+backface-visibility:hidden;
+}
+
+.flip-back{transform:rotateY(180deg);background:#1a0000;}
+
+.icon{width:30px;margin-bottom:8px;}
+
+/* ABOUT FIX */
+.about-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+max-width:500px;
+margin:20px auto;
+}
+
+.about-item{
+background:#111;
+padding:12px;
+border-radius:12px;
+text-align:center;
+border:1px solid rgba(255,0,0,0.3);
+transition:0.3s;
+}
+
+.about-item:hover{
+transform:scale(1.05);
+box-shadow:0 0 15px red;
+background:#1a0000;
+}
+
+/* CONTACT */
+.contact{text-align:center;}
+.cbox{
+display:inline-block;
+margin:10px;
+padding:10px 20px;
+background:#111;
+border-radius:10px;
+color:white;
+text-decoration:none;
+}
+
+.cbox:hover{background:#1a0000;box-shadow:0 0 15px red;}
+
+.small-text{margin-top:10px;font-size:12px;opacity:0.6;}
+
+/* DIVIDER */
+.divider{
+width:80%;
+height:1px;
+margin:40px auto;
+background:linear-gradient(to right,transparent,red,transparent);
+}
+</style>
 </head>
 
-<h2>PROFIL UTAMA</h2>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<div class="top-bar">
+<div class="menu">
+<img class="logo" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+<span class="logo-text">zxax</span>
+<span id="jam"></span>
+
+<div class="nav-wrap">
+<div class="slider" id="slider"></div>
+<span class="nav active" onclick="go(this,'home')">Home</span>
+<span class="nav" onclick="go(this,'skill')">Skill</span>
+<span class="nav" onclick="go(this,'project')">Project</span>
+<span class="nav" onclick="go(this,'about')">About</span>
+<span class="nav" onclick="go(this,'contact')">Contact</span>
+</div>
+</div>
+</div>
+
+<!-- HOME -->
+<div class="section" id="home">
+<div class="video"><video autoplay loop muted src="IDEO.mp4"></video></div>
+
+<div class="content">
+<h1>Abra 🚀</h1>
+<p>Web Developer Portfolio</p>
+
+<div class="social">
+<img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png">
+<img src="https://cdn-icons-png.flaticon.com/512/174/174855.png">
+<img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
+<img src="https://cdn-icons-png.flaticon.com/512/733/733553.png">
+</div>
+
+<div class="stats">
+<div class="stat">34+ Project</div>
+<div class="stat">1+ Client</div>
+<div class="stat">0+ Year</div>
+</div>
+
+<div class="home-extra">
+<div class="fake-btn">Download cv</div>
+<a class="hire-btn" href="https://wa.me/6289527241312">Here Me</a>
+</div>
 
 
-<body onload="generateJamDigital();">
-<h1>Jam Digital</h1>
-<h2 id="jam-digital"></h2>
+</div>
+
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SKILL -->
+<div class="section reverse" id="skill">
+<div class="video"><video autoplay loop muted src="IDEO.mp4"></video></div>
+
+<div class="content">
+<h1>Skill</h1>
+
+<div class="skill-box">
+<div class="skill"><img src="https://cdn-icons-png.flaticon.com/512/732/732212.png">HTML</div>
+<div class="skill"><img src="https://cdn-icons-png.flaticon.com/512/732/732190.png">CSS</div>
+<div class="skill"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png">JS</div>
+<div class="skill"><img src="https://cdn-icons-png.flaticon.com/512/733/733553.png">GitHub</div>
+<div class="skill"><img src="https://cdn-icons-png.flaticon.com/512/919/919836.png">MySQL</div>
+<div class="skill"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png">Python</div>
+</div>
+
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROJECT -->
+<div class="section center-only" id="project">
+<h1>Project</h1>
+
+<div class="project-container">
+
+<div class="flip"><div class="flip-inner">
+<div class="flip-front"><img class="icon" src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png">web devlopment</div>
+<div class="flip-back">Crafting high-performance, responsive, and 560 friendly websites using the lotast frameworks to help your business stond out in the digital world.</div>
+</div></div>
+
+<div class="flip"><div class="flip-inner">
+<div class="flip-front"><img class="icon" src="fotocybr.avif">cyber protecton</div>
+<div class="flip-back">Designing intuitive and sully stunning user anerfaces that focus on seamless user experience</div>
+</div></div>
+
+<div class="flip"><div class="flip-inner">
+<div class="flip-front"><img class="icon" src="https://cdn-icons-png.flaticon.com/512/2721/2721293.png">it support hardware</div>
+<div class="flip-back">Providing expert technical support, fardware custom PC builas tailored for fing, and custom gaming or beginnar</div>
+</div></div>
+
+<div class="flip"><div class="flip-inner">
+<div class="flip-front"><img class="icon" src="https://cdn-icons-png.flaticon.com/512/1828/1828919.png">Design zxax</div>
+<div class="flip-back">your digital assets or digital assets with advanced midits, malware removal, and secure netwerk configurations</div>
+</div></div>
+
+</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<div class="section center-only" id="about">
+<h1>About</h1>
+
+<div class="small-text">im a web devoper plenger and ganteng or hensem,my skill is ngecoding vss,pyton,css,s++,capcut,canva dll</div>
+<div class="small-text">im a hansem and tampan and ganteng and im like coding meski mumet</div>
+<div class="small-text">im a umur 14 tahun and i hamsem and ganteng and tampan</div>
+<div class="small-text">im lahir pada tahun 2012 and im wis hansem and ganteng and tampan</div>
+
+<div class="about-grid">
+<div class="about-item">Cepat Belajar</div>
+<div class="about-item">Kreatif</div>
+<div class="about-item">Disiplin</div>
+<div class="about-item">Pantang Menyerah</div>
+</div>
+
+</div>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<div id="contact" class="contact">
+<h1>Contact</h1>
+
+<a class="cbox" href="https://wa.me/6289527241312">WhatsApp</a>
+<a class="cbox" href="#">Instagram</a>
+<a class="cbox" href="@abr_projet1.">TikTok</a>
+
+<div class="small-text">web developer</div>
+</div>
 
 <script>
-    const generateJamDigital = () => {
-        let counter= 1;
-        setInterval(() => {
-            let date = new Date();
-            let jam = ('0'+date.getHours()).substr(-2);
-            let menit =('0'+date.getMinutes()).substr(-2);
-            let detik =('0'+date.getSeconds()).substr(-2);
+const cursor=document.getElementById("cursor");
+document.addEventListener("mousemove",e=>{
+cursor.style.left=e.clientX+"px";
+cursor.style.top=e.clientY+"px";
+});
 
-            // document.write(`${jam}:${menit}:${detik}`);
-            document.getElementById('jam-digital').textContent = `${jam}:${menit}:${detik}`;
+setInterval(()=>{
+const now=new Date();
+document.getElementById("jam").innerText=now.getHours()+":"+now.getMinutes();
+},1000);
 
-            console.log(counter);
+function go(el,id){
+document.getElementById(id).scrollIntoView({behavior:"smooth"});
+document.querySelectorAll(".nav").forEach(n=>n.classList.remove("active"));
+el.classList.add("active");
 
-            if(counter %2 === 0){
-            document.body.style.color ="black";
-            } else {
-            document.body.style.color ="white";
-            }
-
-            counter++;
-
-        }, 1000);
-
-    }
-
- </script>  
-
-  
-<button><a href="bapak_jokowi.html">siapa itu jokowi?</a></button>
-
+const slider=document.getElementById("slider");
+slider.style.width=el.offsetWidth+"px";
+slider.style.left=el.offsetLeft+"px";
+}
+</script>
 
 </body>
 </html>
-    
